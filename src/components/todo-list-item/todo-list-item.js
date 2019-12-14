@@ -3,19 +3,9 @@ import React, { Component } from 'react';
 import './todo-list-item.css';
 
 export default class TodoListItem extends Component{
-    state = {
-        done: false
-    }
-
-    onLabelClick = () => {
-        this.setState((state) =>({
-            done: !state.done
-        }));
-    }
-
+    
     render() {
-        const { label, important = false, onDeleted, onImportant } = this.props;
-        const {done} = this.state;
+        const { label, important = false, onDeleted, onImportant, onDone, done } = this.props;
 
 
         const style = {
@@ -30,7 +20,7 @@ export default class TodoListItem extends Component{
 
         return (
             <span className={className}>
-                <span onClick={this.onLabelClick} className="todo-list-item-label" style={style}>
+                <span onClick={onDone} className="todo-list-item-label" style={style}>
                     {label}
                 </span>
         
