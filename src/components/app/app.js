@@ -16,13 +16,26 @@ class App extends Component {
     }
 
     deleteItem = (id) => {
-        
         this.setState((state)=>{
             const todoData = state.todoData.filter((elem)=>{
                 if(elem.id !== id)
-                    return elem;
+                    return true;
                 return false;
             });
+            return {todoData};
+        });
+    }
+    importantItem = (id) => {
+        this.setState((state)=>{
+            const todoData = state.todoData.map((elem)=>{
+                if(elem.id === id){
+                    const tmp = {...elem};
+                    tmp.important = !elem.important;
+                    return tmp;
+                }
+                return elem;
+            });
+
             return {todoData};
         });
     }
@@ -35,7 +48,10 @@ class App extends Component {
                 <div className="top-panel d-flex">
                     <SearchPanel />
                 </div>
-                <TodoList todos={todoData} onDeleted={this.deleteItem} />
+                <TodoList 
+                    todos={todoData} 
+                    onDeleted={this.deleteItem}
+                    onImportant={this.importantItem} />
             </div>
         );
     }

@@ -14,7 +14,7 @@ export default class TodoListItem extends Component{
     }
 
     render() {
-        const { label, important = false, onDeleted } = this.props;
+        const { label, important = false, onDeleted, onImportant } = this.props;
         const {done} = this.state;
 
 
@@ -35,7 +35,8 @@ export default class TodoListItem extends Component{
                 </span>
         
                 <button type="button"
-                        className="btn btn-outline-success btn-sm float-right">
+                        className="btn btn-outline-success btn-sm float-right"
+                        onClick={onImportant}>
                     <i className="fa fa-exclamation" />
                 </button>
         
