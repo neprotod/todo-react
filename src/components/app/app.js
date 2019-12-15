@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 
 import AppHeader from '../app-header';
-import SearchPanel from '../item-status-filter';
+import SearchPanel from '../search-panel';
 import TodoList from '../todo-list';
 import ItemAddForm from '../item-add-form';
+import ItemStatusFilter from '../item-status-filter';
 
 import './app.css';
 
@@ -14,7 +15,45 @@ class App extends Component {
             this.createItem('Drink Coffee'),
             this.createItem('Make Awesome App'),
             this.createItem('Have a lunch')
-        ]
+        ],
+        filter: '',
+        mark: 'all'
+    }
+
+    /**
+     * 
+     * @param {Array} items 
+     * @param {string} name 
+     */
+    markItem(items, name){
+        switch(name){
+            case 'all':
+                return items;
+            case 'active':
+                return items.filter((el) => !el.done);
+            case 'done':
+                return items.filter((el) => el.done);
+            default:
+                return items;
+        }
+    }
+
+    /**
+     * Filter element
+     * 
+     * @param {Array} items array
+     * @param {string} filter text to filter
+     * @return {Array} filtered elements
+     */
+    searchItem(items, filter){
+        if(!filter){
+            return items;
+        }
+
+        return items.filter((el)=>{
+            return el.label
+                .toLowerCase()
+                .includes(filter.toLowerCase())});
     }
 
     /**
@@ -84,22 +123,42 @@ class App extends Component {
         this.setState((state)=>({todoData: [...state.todoData, tmp]}));
     }
 
+    filterItem = (filter)=>{
+        this.setState({
+            filter
+        });
+    }
+
+    changeMark = (mark) => {
+        this.setState({
+            mark
+        });
+    }
+
     render(){
-        const {todoData} = this.state;
+        const {todoData, filter, mark} = this.state;
         // We can count element to head
         const doneCount = todoData
                             .filter((elem)=>elem.done)
                             .length;
         const todoCount = todoData.length - doneCount;
 
+        const filterItem = this.markItem(
+                this.searchItem(todoData, filter), 
+                mark
+            );
+
         return(
             <div className="todo-app">
                 <AppHeader toDo={todoCount} done={doneCount} />
                 <div className="top-panel d-flex">
-                    <SearchPanel />
+                    <SearchPanel onFilter={this.filterItem} />
+                    <ItemStatusFilter 
+                        changeMark={this.changeMark}
+                        mark={mark} />
                 </div>
                 <TodoList 
-                    todos={todoData} 
+                    todos={filterItem} 
                     onDeleted={this.deleteItem}
                     onImportant={this.importantItem}
                     onDone={this.onToggleDone} />

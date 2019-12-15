@@ -1,13 +1,22 @@
 .app-header {
-    align-items: flex-end;
-  }
-  
-  .app-header h1 {
-    flex-grow: 1;
-  }
-  
-  .app-header h2 {
-    font-size: 1.2rem;
-    color: grey;
-  }
-  
+  align-items: flex-end;
+}
+.app-header h1 {
+  flex-grow: 1;
+}
+
+.app-header h2 {
+  font-size: 1.2rem;
+  color: grey;
+}
+#pencil-container{
+  position: relative;
+  padding-right: 50px;
+}
+#pencil{
+  width:50px;
+  height:50px;
+  position:absolute;
+  right:0;
+  top:-14px;
+}

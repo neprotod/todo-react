@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import './todo-list-item.css';
 
 export default class TodoListItem extends Component{
-    
     render() {
         const { label, important = false, onDeleted, onImportant, onDone, done } = this.props;
 
